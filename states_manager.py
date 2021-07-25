@@ -1,5 +1,5 @@
 from constants import *
-import sys, pygame, player, camera, wall
+import sys, pygame, player, camera, wall, health
 
 
 
@@ -8,6 +8,8 @@ class States_manager:
         self.running = True
         self.states = ["start", "running", "paused", "dead"]
         self.state = self.states[1]
+
+        self.health_bar = health.Health(0, 0)
 
         self.all_group = pygame.sprite.Group()
 
@@ -75,6 +77,10 @@ class States_manager:
 
             # self.player_group.draw(surface)
             self.camera.draw(surface)
+
+            r = pygame.Rect(0, 0, self.player.health, 64)
+            pygame.draw.rect(surface, RED, r)
+            surface.blit(self.health_bar.image, self.health_bar.rect)
 
         elif self.state == "paused":
             surface.fill((255, 100, 100))#background

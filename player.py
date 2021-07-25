@@ -1,5 +1,6 @@
 
 from main_block import *
+import health, pygame
 
 class Player(Main_block):
 
@@ -10,11 +11,15 @@ class Player(Main_block):
         super().__init__(self.x, self.y)
 
         self.speed = BLOCK_SIZE // 8
-
+        self.health = 100
+        self.health_bar = health.Health(0, 0)
 
 
     def update(self):
+        self.health -= 0.01
         self.input()
+
+
 
 
 
