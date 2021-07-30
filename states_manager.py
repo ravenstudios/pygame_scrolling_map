@@ -1,5 +1,5 @@
 from constants import *
-import sys, pygame, player, camera, wall
+import sys, pygame, player, camera, wall, block, random
 
 
 
@@ -10,20 +10,28 @@ class States_manager:
         self.state = self.states[1]
 
         self.all_group = pygame.sprite.Group()
-
+        self.player_group = pygame.sprite.Group()
         n = 20
         self.player = player.Player()
         # the args for this need to be the w, h, of the world map NOT THE SCREEN SIZE!
         self.camera = camera.Camera(n * BLOCK_SIZE, n * BLOCK_SIZE)
 
         # self.player_group.add(self.player)
-        self.all_group.add(self.player)
 
-        for r in range(n):
-            for c in range(n):
-                if r == 0 or r == (n - 1) or c == 0 or c == (n - 1):
-                    self.all_group.add(wall.Wall(r * BLOCK_SIZE, c * BLOCK_SIZE))
 
+        for i in range(100):
+            r = random.randint(0, GAME_WORLD_W) // BLOCK_SIZE * BLOCK_SIZE
+            c = random.randint(0, GAME_WORLD_H) // BLOCK_SIZE * BLOCK_SIZE
+            self.all_group.add(wall.Wall(r, c))
+        # for r in range(n):
+        #     for c in range(n):
+        #         if c not in (0, 1, 2):
+        #             if c
+        #             self.all_group.add(wall.Wall(r * BLOCK_SIZE, c * BLOCK_SIZE))
+        #         # if r == 0 or r == (n - 1) or c == 0 or c == (n - 1):
+        #         #     self.all_group.add(wall.Wall(r * BLOCK_SIZE, c * BLOCK_SIZE))
+
+        self.player_group.add(self.player)
 
     def events(self, events):
 
@@ -52,14 +60,21 @@ class States_manager:
                         self.state = "paused"
 
             if event.type == pygame.KEYUP:
+
                 if event.key == 32:#SPACE
+                    #Start Screen
                     if self.state == "start":
                         self.state = "running"
+
+                    #Dig a block
+                    if self.state == "running":
+                        for all in self.all_group:
+                            all.dig(self.player)
 
 
     def draw(self, surface):
         # surface.fill((100, 100, 100))#background
-        self.draw_grid(surface)
+
 
         if self.state == "start":
             surface.fill((100, 100, 255))#background
@@ -70,11 +85,16 @@ class States_manager:
             for wall in self.all_group:
                 surface.blit(wall.image, self.camera.move(wall.rect))
 
+            for player in self.player_group:
+                surface.blit(player.image, self.camera.move(player.rect))
 
 
 
-            # self.player_group.draw(surface)
+
+
             self.camera.draw(surface)
+            self.draw_grid(surface)
+
 
         elif self.state == "paused":
             surface.fill((255, 100, 100))#background
@@ -95,6 +115,7 @@ class States_manager:
         elif self.state == "running":
             self.camera.update(self.player)
             self.all_group.update()
+            self.player_group.update(self.all_group)
 
         elif self.state == "paused":
             pass

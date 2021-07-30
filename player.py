@@ -10,23 +10,41 @@ class Player(Main_block):
         super().__init__(self.x, self.y)
 
         self.speed = BLOCK_SIZE // 8
-
-
-
-    def update(self):
-        self.input()
+        self.grav = 5
+        self.dir = "right"
 
 
 
 
-    def input(self):
+
+    def update(self, all_group):
+        self.input(all_group)
+        self.falling(all_group)
+
+
+
+
+
+
+
+    def falling(self, all_group):
+        self.rect = self.rect.move(0, self.grav)
+        # # gets all sprites that it collided with
+        hits = pygame.sprite.spritecollide(self, all_group, False)
+        # # if we did hit anything move back to make sure were not stuck
+        if hits:
+
+            self.rect = self.rect.move(0, -self.grav)
+
+    def input(self, all_group):
 
         keys = pygame.key.get_pressed()
 
 
         # DOWN
         if (keys[pygame.K_s] or keys[pygame.K_DOWN]):
-            self.rect = self.rect.move(0, self.speed)
+            self.dir = "down"
+        #     self.rect = self.rect.move(0, self.speed)
             # # move
             # self.rect = self.rect.move(0, self.speed)
             # # gets all sprites that it collided with
@@ -44,8 +62,9 @@ class Player(Main_block):
 
         # UP
         if (keys[pygame.K_w] or keys[pygame.K_UP]):
-            if self.rect.top > BLOCK_SIZE:
-                self.rect = self.rect.move(0, -self.speed)
+            self.dir = "up"
+        #     if self.rect.top > BLOCK_SIZE:
+        #         self.rect = self.rect.move(0, -self.speed)
             # move
             # self.rect = self.rect.move(0, -self.speed)
             # # gets all sprites that it collided with
@@ -63,15 +82,14 @@ class Player(Main_block):
 
         # LEFT
         if (keys[pygame.K_a] or keys[pygame.K_LEFT]):
-            if self.rect.left > BLOCK_SIZE:
-                self.rect = self.rect.move(-self.speed, 0)
-            # # move
-            # self.rect = self.rect.move(-self.speed, 0)
-            # # gets all sprites that it collided with
-            # hits = pygame.sprite.spritecollide(self, all_group, False)
-            # # if we did hit anything move back to make sure were not stuck
-            # if hits:
-            #     self.rect = self.rect.move(self.speed, 0)
+            self.dir = "left"
+            # move
+            self.rect = self.rect.move(-self.speed, 0)
+            # gets all sprites that it collided with
+            hits = pygame.sprite.spritecollide(self, all_group, False)
+            # if we did hit anything move back to make sure were not stuck
+            if hits:
+                self.rect = self.rect.move(self.speed, 0)
             #
             # # if not center on a block move right or left to assist in going down if blocked
             # for h in hits:
@@ -82,14 +100,14 @@ class Player(Main_block):
 
         # RIGHT
         if (keys[pygame.K_d] or keys[pygame.K_RIGHT]):
-            pass
+            self.dir = "right"
             # # move
             self.rect = self.rect.move(self.speed, 0)
-            # # gets all sprites that it collided with
-            # hits = pygame.sprite.spritecollide(self, all_group, False)
-            # # if we did hit anything move back to make sure were not stuck
-            # if hits:
-            #     self.rect = self.rect.move(-self.speed, 0)
+            # gets all sprites that it collided with
+            hits = pygame.sprite.spritecollide(self, all_group, False)
+            # if we did hit anything move back to make sure were not stuck
+            if hits:
+                self.rect = self.rect.move(-self.speed, 0)
             #
             # # if not center on a block move right or left to assist in going down if blocked
             # for h in hits:
