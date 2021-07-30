@@ -10,7 +10,7 @@ class Player(Main_block):
         super().__init__(self.x, self.y)
 
         self.speed = BLOCK_SIZE // 8
-        self.grav = 5
+        self.grav = BLOCK_SIZE // 8
         self.dir = "right"
 
 
@@ -35,6 +35,8 @@ class Player(Main_block):
         if hits:
 
             self.rect = self.rect.move(0, -self.grav)
+            y_snap = self.rect.y / BLOCK_SIZE * BLOCK_SIZE
+            self.rect.y = y_snap
 
     def input(self, all_group):
 
