@@ -1,5 +1,5 @@
 from constants import *
-import sys, pygame, player, camera, wall, block, random
+import sys, pygame, player, camera, wall, block, random, main_drop
 
 
 
@@ -11,6 +11,9 @@ class States_manager:
 
         self.all_group = pygame.sprite.Group()
         self.player_group = pygame.sprite.Group()
+        self.items = pygame.sprite.Group()
+
+
         n = 20
         self.player = player.Player()
         # the args for this need to be the w, h, of the world map NOT THE SCREEN SIZE!
@@ -18,18 +21,15 @@ class States_manager:
 
         # self.player_group.add(self.player)
 
-
+        # adds walls
         for i in range(100):
             r = random.randint(0, GAME_WORLD_W) // BLOCK_SIZE * BLOCK_SIZE
             c = random.randint(0, GAME_WORLD_H) // BLOCK_SIZE * BLOCK_SIZE
             self.all_group.add(wall.Wall(r, c))
-        # for r in range(n):
-        #     for c in range(n):
-        #         if c not in (0, 1, 2):
-        #             if c
-        #             self.all_group.add(wall.Wall(r * BLOCK_SIZE, c * BLOCK_SIZE))
-        #         # if r == 0 or r == (n - 1) or c == 0 or c == (n - 1):
-        #         #     self.all_group.add(wall.Wall(r * BLOCK_SIZE, c * BLOCK_SIZE))
+
+
+        # adds pickups
+        self.items.add(main_drop.Main_drop(BLOCK_SIZE * 3, BLOCK_SIZE * 3))
 
         self.player_group.add(self.player)
 
@@ -88,6 +88,9 @@ class States_manager:
             for player in self.player_group:
                 surface.blit(player.image, self.camera.move(player.rect))
 
+            for item in self.items:
+                surface.blit(item.image, self.camera.move(item.rect))
+
 
 
 
@@ -116,6 +119,7 @@ class States_manager:
             self.camera.update(self.player)
             self.all_group.update()
             self.player_group.update(self.all_group)
+            self.items.update(self.player_group)
 
         elif self.state == "paused":
             pass
