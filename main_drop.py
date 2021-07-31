@@ -17,4 +17,4 @@ class Main_drop(pygame.sprite.Sprite):
 
     def update(self, player):
         if pygame.sprite.spritecollide(self, player, False):
-            self.kill
+            self.kill()
