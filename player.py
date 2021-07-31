@@ -31,20 +31,20 @@ class Player(Main_block):
 
     def falling(self, all_group):
 
-        # if self.y_vel > 0:
+
         self.y_vel += self.grav
 
-        
+
         self.rect = self.rect.move(0, self.y_vel)
         # # gets all sprites that it collided with
         hits = pygame.sprite.spritecollide(self, all_group, False)
         # # if we did hit anything move back to make sure were not stuck
         if hits:
 
-            # self.rect = self.rect.move(0, -self.grav)
+            self.rect = self.rect.move(0, -self.y_vel)
             self.y_vel = 0
-            y_snap = self.rect.y // BLOCK_SIZE * BLOCK_SIZE
-            self.rect.y = y_snap
+            # y_snap = self.rect.y // BLOCK_SIZE * BLOCK_SIZE
+            # self.rect.y = y_snap
 
     def input(self, all_group):
 
@@ -128,10 +128,5 @@ class Player(Main_block):
 
         #z jump
         if (keys[pygame.K_z]):
-            self.rect = self.rect.move(0, -10)
+            # self.rect = self.rect.move(0, -10)
             self.y_vel += self.jump_vel
-            # gets all sprites that it collided with
-            hits = pygame.sprite.spritecollide(self, all_group, False)
-            # if we did hit anything move back to make sure were not stuck
-            if hits:
-                self.rect = self.rect.move(0, self.jump_vel)
