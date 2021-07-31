@@ -1,15 +1,13 @@
 from constants import *
+from main_block import *
 import pygame
 
-class Main_drop(pygame.sprite.Sprite):
+class Main_drop(Main_block):
     def __init__(self, x, y):
-        super().__init__()
-        self.width = 32
-        self.height =  32
+        super().__init__(x, y)
         self.image = pygame.Surface((BLOCK_SIZE // 2, BLOCK_SIZE // 2))
         self.image.fill((0, 0, 0))
-        self.rect = pygame.Rect(self.image.get_rect())
-        self.rect.topleft = (x, y)
+        
 
 
 
