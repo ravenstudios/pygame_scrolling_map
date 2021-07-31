@@ -12,6 +12,8 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
+GRAVITY = 0.3
+
 
 PLAYER_DIG_DISTANCE = 5
 

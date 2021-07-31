@@ -10,7 +10,7 @@ class Player(Main_block):
         super().__init__(self.x, self.y)
 
         self.speed = BLOCK_SIZE // 8
-        self.grav = 0.3
+        self.grav = GRAVITY
         self.jump_vel = -0.9
         self.dir = "right"
         self.y_vel = 0.1
