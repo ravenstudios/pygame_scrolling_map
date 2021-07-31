@@ -10,8 +10,10 @@ class Player(Main_block):
         super().__init__(self.x, self.y)
 
         self.speed = BLOCK_SIZE // 8
-        self.grav = BLOCK_SIZE // 8
+        self.grav = 0.3
+        self.jump_vel = -0.9
         self.dir = "right"
+        self.y_vel = 0.1
 
 
 
@@ -28,14 +30,20 @@ class Player(Main_block):
 
 
     def falling(self, all_group):
-        self.rect = self.rect.move(0, self.grav)
+
+        # if self.y_vel > 0:
+        self.y_vel += self.grav
+
+        
+        self.rect = self.rect.move(0, self.y_vel)
         # # gets all sprites that it collided with
         hits = pygame.sprite.spritecollide(self, all_group, False)
         # # if we did hit anything move back to make sure were not stuck
         if hits:
 
-            self.rect = self.rect.move(0, -self.grav)
-            y_snap = self.rect.y / BLOCK_SIZE * BLOCK_SIZE
+            # self.rect = self.rect.move(0, -self.grav)
+            self.y_vel = 0
+            y_snap = self.rect.y // BLOCK_SIZE * BLOCK_SIZE
             self.rect.y = y_snap
 
     def input(self, all_group):
@@ -118,15 +126,12 @@ class Player(Main_block):
             #     if self.rect.center[1] > h.rect.bottom and self.rect.top < h.rect.bottom:
             #         self.rect = self.rect.move(0, self.speed)
 
-        # SPACE / SET Bomb
-        # if (keys[pygame.K_SPACE]):
-        #     self.set_bomb(bombs_group)
-
-    def get_rect(self):
-        return self.get_rect
-
-
-    def set_bomb(self, bombs_group):
-        bombs_group.add(bomb.Bomb(self.rect.x, self.rect.y, self.fire_length))
-        print("bomb set ")
-        print(bombs_group)
+        #z jump
+        if (keys[pygame.K_z]):
+            self.rect = self.rect.move(0, -10)
+            self.y_vel += self.jump_vel
+            # gets all sprites that it collided with
+            hits = pygame.sprite.spritecollide(self, all_group, False)
+            # if we did hit anything move back to make sure were not stuck
+            if hits:
+                self.rect = self.rect.move(0, self.jump_vel)
