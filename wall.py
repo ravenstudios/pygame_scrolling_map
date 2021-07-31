@@ -8,6 +8,29 @@ class Wall(Main_block):
 
         super().__init__(x, y)
         self.image.fill((180, 180, 180))
+        self.y_vel = 0
+
+
+    def update(self, all_group):
+
+        self.y_vel += GRAVITY
+        self.rect = self.rect.move(0, self.y_vel)
+
+        hits = pygame.sprite.spritecollide(self, all_group, False)
+        # # if we did hit anything move back to make sure were not stuck
+        for h in hits:
+            if h != self:
+                if self.rect.bottom > h.rect.top:
+                    self.y_vel = 0
+                    self.rect.bottom = h.rect.top
+                    # self.rect = self.rect.move(0, -self.y_vel)
+                else:
+                    self.y_vel += GRAVITY
+
+        # sets the bottom of screen to stop falling
+        if self.rect.bottom > GAME_WORLD_H:
+            self.rect.bottom = GAME_WORLD_H
+            self.y_vel = 0
 
 
     def dig(self, player):
