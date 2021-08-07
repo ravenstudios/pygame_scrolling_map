@@ -3,12 +3,16 @@ from constants import *
 import sys, pygame, player, camera, wall, block, random, main_drop, floor, os
 
 
-
 class States_manager:
     def __init__(self):
         self.running = True
         self.states = ["start", "running", "paused", "dead"]
         self.state = self.states[1]
+
+        pygame.mixer.init()
+        pygame.mixer.music.load(os.path.join('sounds', "Lunar Surface.mp3"))
+        pygame.mixer.music.play()
+        pygame.mixer.music.set_volume(0.50)
 
         self.all_group = pygame.sprite.Group()
         self.player_group = pygame.sprite.Group()
