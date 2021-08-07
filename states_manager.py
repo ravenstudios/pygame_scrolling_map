@@ -1,7 +1,8 @@
 from constants import *
 
-import sys, pygame, player, camera, wall, block, random, main_drop, floor, os
-
+import sys, pygame, player, camera, wall, block, random, main_drop, floor, ps
+from pygame import mixer
+pygame.init()
 
 
 class States_manager:
@@ -9,7 +10,8 @@ class States_manager:
         self.running = True
         self.states = ["start", "running", "paused", "dead"]
         self.state = self.states[1]
-
+        pygame.mixer.Channel(0).play(pygame.mixer.Sound("Lunar Surface.mp3"))
+        mixer.music.set_volume(0.50)
         self.all_group = pygame.sprite.Group()
         self.player_group = pygame.sprite.Group()
         self.items = pygame.sprite.Group()
