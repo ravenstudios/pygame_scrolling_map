@@ -133,6 +133,6 @@ class Player(Main_block):
             #         self.rect = self.rect.move(0, self.speed)
 
         #z jump
-        if (keys[pygame.K_z]):
+        if (keys[pygame.K_z] or keys[pygame.K_w]):
             # self.rect = self.rect.move(0, -10)
             self.y_vel += self.jump_vel

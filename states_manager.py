@@ -1,5 +1,5 @@
 from constants import *
-import sys, pygame, player, camera, wall, block, random, main_drop
+import sys, pygame, player, camera, wall, block, random, main_drop, floor
 
 
 
@@ -24,7 +24,21 @@ class States_manager:
         # adds walls
         for r in range(n):
             for c in range(n):
-                self.all_group.add(wall.Wall(r * BLOCK_SIZE, c * BLOCK_SIZE))
+
+                # self.all_group.add(wall.Wall(r * BLOCK_SIZE, c * BLOCK_SIZE))
+
+
+                if r == 0 or c == 0 or r == n - 1 or c == n - 1:
+                    self.all_group.add(floor.Floor(r * BLOCK_SIZE, c * BLOCK_SIZE))
+                else:
+                    d1 = random.randint(0, 2)
+                    d2 = random.randint(0, 1)
+                    if d1 == 2:
+                        if d2 == 0:
+                            self.all_group.add(wall.Wall(r * BLOCK_SIZE, c * BLOCK_SIZE))
+                        else:
+                            self.all_group.add(floor.Floor(r * BLOCK_SIZE, c * BLOCK_SIZE))
+
 
         # self.all_group.add(wall.Wall(1 * BLOCK_SIZE, 1 * BLOCK_SIZE))
         # self.all_group.add(wall.Wall(2 * BLOCK_SIZE, 1 * BLOCK_SIZE))
@@ -83,9 +97,9 @@ class States_manager:
     def draw(self, surface):
         # surface.fill((100, 100, 100))#background
 
-        self.draw_grid(surface)
+        # self.draw_grid(surface)
         if self.state == "start":
-            surface.fill((100, 100, 255))#background
+            surface.fill((200, 200, 200))#background
 
         elif self.state == "running":
 
@@ -118,7 +132,7 @@ class States_manager:
 
 
     def update(self, surface):
-        surface.fill((100, 100, 100))#background
+        surface.fill((200, 200, 200))#background
         self.camera.update(self.player)
 
         if self.state == "start":
