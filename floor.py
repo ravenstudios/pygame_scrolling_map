@@ -7,4 +7,4 @@ class Floor(Main_block):
 
 
         super().__init__(x, y)
-        self.image.fill((100, 100, 100))
+        self.image = pygame.image.load(os.path.join('images', 'floor_block.png'))

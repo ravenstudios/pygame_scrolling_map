@@ -1,5 +1,6 @@
 from constants import *
-import sys, pygame, player, camera, wall, block, random, main_drop, floor
+
+import sys, pygame, player, camera, wall, block, random, main_drop, floor, os
 
 
 
@@ -12,7 +13,8 @@ class States_manager:
         self.all_group = pygame.sprite.Group()
         self.player_group = pygame.sprite.Group()
         self.items = pygame.sprite.Group()
-
+        self.image = pygame.image.load(os.path.join('images', 'moon_bk.png'))
+        self.bk_rect = self.image.get_rect()
 
         n = 20
         self.player = player.Player()
@@ -96,7 +98,7 @@ class States_manager:
 
     def draw(self, surface):
         # surface.fill((100, 100, 100))#background
-
+        surface.blit(self.image, self.camera.move(self.bk_rect))
         # self.draw_grid(surface)
         if self.state == "start":
             surface.fill((200, 200, 200))#background
@@ -132,7 +134,7 @@ class States_manager:
 
 
     def update(self, surface):
-        surface.fill((200, 200, 200))#background
+        # surface.fill((200, 200, 200))#background
         self.camera.update(self.player)
 
         if self.state == "start":

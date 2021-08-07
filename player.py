@@ -14,6 +14,7 @@ class Player(Main_block):
         self.jump_vel = PLAYER_JUMP_VEL
         self.dir = "right"
         self.y_vel = 0.1
+        self.image = pygame.image.load(os.path.join('images', 'Robi.gif'))
 
 
 

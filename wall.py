@@ -7,7 +7,8 @@ class Wall(Main_block):
 
 
         super().__init__(x, y)
-        self.image.fill((180, 180, 180))
+        self.image = pygame.image.load(os.path.join('images', 'moon_block.png'))
+
         self.y_vel = 0
 
 
